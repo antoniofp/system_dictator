@@ -27,7 +27,7 @@ MIN_SILENCE_SECONDS = 1.2      # 1.2s pause triggers a 'flush' (natural pause)
 CONTEXT_HISTORY_LENGTH = 100    # How many characters of previous text to feed the AI
 
 # Priming prompt to encourage punctuation and capitalization style in both English and Spanish.
-PUNCTUATION_PROMPT = "Hello! This is a punctuated sentence in English. ¡Hola! Esta es una frase con puntuación en español. I am a bilingual speaker. Soy una persona bilingüe."
+PUNCTUATION_PROMPT = "Hello! Hola!This is a sentence in English with periods, commas, etc. ¡Hola! Esta es una frase En español con puntos, comas, etc. I am a bilingual speaker. Soy una persona bilingüe."
 
 # Sensitivity & Quality thresholds
 SILENCE_THRESHOLD = 0.03       # Average energy below this is 'room noise'
