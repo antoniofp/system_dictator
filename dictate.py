@@ -136,7 +136,7 @@ def transcription_worker():
             beam_size=3, 
             initial_prompt=current_prompt,
             # LOOP PREVENTION & NOISE FILTERING:
-            condition_on_previous_text=False, 
+            condition_on_previous_text=True, 
             compression_ratio_threshold=COMPRESSION_RATIO_THRESHOLD,
             vad_filter=True, # New: Ignores non-speech sounds like whistling
             vad_parameters=dict(min_silence_duration_ms=500)
