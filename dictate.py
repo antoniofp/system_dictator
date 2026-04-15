@@ -26,8 +26,8 @@ MIN_SILENCE_SECONDS = 1.2      # 1.2s pause triggers a 'flush' (natural pause)
 # Lower (50-100) is safer against loops. Higher (200+) helps with long-range grammar.
 CONTEXT_HISTORY_LENGTH = 100    # How many characters of previous text to feed the AI
 
-# Priming prompt to encourage punctuation and capitalization style.
-PUNCTUATION_PROMPT = "Hello, welcome to my lecture. Today, we will discuss the importance of punctuation; it helps clarify meaning!"
+# Priming prompt to encourage punctuation and capitalization style in both English and Spanish.
+PUNCTUATION_PROMPT = "Hello! This is a punctuated sentence in English. ¡Hola! Esta es una frase con puntuación en español. I am a bilingual speaker. Soy una persona bilingüe."
 
 # Sensitivity & Quality thresholds
 SILENCE_THRESHOLD = 0.03       # Average energy below this is 'room noise'
@@ -138,6 +138,7 @@ def transcription_worker():
             temp_wav, 
             beam_size=3, 
             initial_prompt=current_prompt,
+            task="transcribe",
             # LOOP PREVENTION & NOISE FILTERING:
             condition_on_previous_text=True, 
             compression_ratio_threshold=COMPRESSION_RATIO_THRESHOLD,
