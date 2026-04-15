@@ -20,11 +20,14 @@ INT16_MAX_ABS = 32768.0         # Max absolute value for 16-bit signed audio
 
 # Timing & VAD (Voice Activity Detection) parameters
 MAX_CHUNK_SECONDS = 12.0       # Hard limit to prevent memory overflow
-MIN_SILENCE_SECONDS = 0.7      # 700ms pause triggers a 'flush' (natural pause)
+MIN_SILENCE_SECONDS = 1.2      # 1.2s pause triggers a 'flush' (natural pause)
 
 # [CONTEXT_HISTORY_LENGTH]: Range 0 to 200. 
 # Lower (50-100) is safer against loops. Higher (200+) helps with long-range grammar.
 CONTEXT_HISTORY_LENGTH = 100    # How many characters of previous text to feed the AI
+
+# Priming prompt to encourage punctuation and capitalization style.
+PUNCTUATION_PROMPT = "Hello, welcome to my lecture. Today, we will discuss the importance of punctuation; it helps clarify meaning!"
 
 # Sensitivity & Quality thresholds
 SILENCE_THRESHOLD = 0.03       # Average energy below this is 'room noise'
@@ -34,7 +37,7 @@ LOGPROB_THRESHOLD = -1.0       # Reject if AI confidence is too low (hallucinati
 
 # [COMPRESSION_RATIO_THRESHOLD]: Range 1.0 to 3.0. 
 # LOWER (2.0-2.4) is stricter (rejects repetitive "looping" hallucinations).
-COMPRESSION_RATIO_THRESHOLD = 2.4
+COMPRESSION_RATIO_THRESHOLD = 2.2
 
 # Internal calculation windows (Calculated from SAMPLE_RATE)
 # We look at the last 200ms of audio to check for silence
@@ -128,8 +131,8 @@ def transcription_worker():
         temp_wav = os.path.join(TEMP_DIR, f"chunk_{int(time.time()*1000)}.wav")
         wavfile.write(temp_wav, SAMPLE_RATE, audio_chunk)
         
-        # Build the 'Memory': show the AI the last 100 characters we wrote
-        current_prompt = last_text_context[-CONTEXT_HISTORY_LENGTH:] if last_text_context else ""
+        # Build the 'Memory': show the AI the style we want and the last 100 characters we wrote
+        current_prompt = PUNCTUATION_PROMPT + (last_text_context[-CONTEXT_HISTORY_LENGTH:] if last_text_context else "")
         
         segments, _ = model.transcribe(
             temp_wav, 
