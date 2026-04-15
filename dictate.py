@@ -136,7 +136,7 @@ def transcription_worker():
         
         segments, _ = model.transcribe(
             temp_wav, 
-            beam_size=3, 
+            beam_size=5, 
             initial_prompt=current_prompt,
             task="transcribe",
             # LOOP PREVENTION & NOISE FILTERING:
